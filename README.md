@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/feature-graphic-pt.png" alt="SURVIVE — Prontidão Familiar" width="100%">
+  <img src="images/feature_graphic_a.png" alt="SURVIVE — Prontidão Familiar" width="100%">
 </p>
 
 <p align="center">
@@ -35,10 +35,10 @@ SURVIVE reúne num único lugar a gestão da despensa, medicamentos armazenados,
 
 <table>
   <tr>
-    <td align="center"><img src="assets/screenshots/01-resumo.png" alt="Resumo da prontidão" width="220"><br><strong>Resumo</strong></td>
-    <td align="center"><img src="assets/screenshots/02-despensa.png" alt="Gestão da despensa" width="220"><br><strong>Despensa</strong></td>
-    <td align="center"><img src="assets/screenshots/03-medicamentos.png" alt="Controlo de medicamentos armazenados" width="220"><br><strong>Medicamentos</strong></td>
-    <td align="center"><img src="assets/screenshots/04-alertas.png" alt="Alertas locais" width="220"><br><strong>Alertas</strong></td>
+    <td align="center"><img src="images/screenshot_1_resumo.png" alt="Resumo da prontidão" width="220"><br><strong>Resumo</strong></td>
+    <td align="center"><img src="images/screenshot_2_despensa.png" alt="Gestão da despensa" width="220"><br><strong>Despensa</strong></td>
+    <td align="center"><img src="images/screenshot_3_medicamentos.png" alt="Controlo de medicamentos armazenados" width="220"><br><strong>Medicamentos</strong></td>
+    <td align="center"><img src="images/screenshot_4_alertas.png" alt="Alertas locais" width="220"><br><strong>Alertas</strong></td>
   </tr>
 </table>
 
@@ -55,7 +55,7 @@ SURVIVE funciona integralmente no dispositivo:
 
 A password protege o acesso através da interface, mas a base de dados local não é cifrada pela password. Os backups JSON também não são cifrados e devem ser guardados num local privado.
 
-Consulta a [Política de Privacidade](docs/index.md), a [versão inglesa](docs/en/index.md), o [Suporte](docs/support/index.md) e as [instruções para eliminação de dados](docs/delete-data/index.md).
+Consulta a [Política de Privacidade em português](https://nunchuckcoder.github.io/survive/), a [versão inglesa](https://nunchuckcoder.github.io/survive/en/), o [Suporte](https://nunchuckcoder.github.io/survive/support/) e as [instruções para eliminação de dados](https://nunchuckcoder.github.io/survive/delete-data/).
 
 ## Avisos importantes
 
@@ -77,67 +77,6 @@ As estimativas nutricionais, de autonomia e de racionamento destinam-se exclusiv
 - PBKDF2-HMAC-SHA-256 para derivação local da password
 - Android 8.0 ou superior (`minSdk 26`)
 - `targetSdk 36`, `compileSdk 37` e JDK 17
-
-## Estrutura do projeto
-
-```text
-app/src/main/java/pt/osvaldocipriano/survive/
-├── data/          # Room, entidades, DAO, sessão e repositório
-├── domain/        # validação e cálculos de planeamento
-├── notifications/ # alertas locais de validade
-└── ui/            # ecrãs, componentes, localização e tema
-
-app/schemas/       # esquemas Room usados nos testes de migração
-docs/              # política de privacidade e páginas públicas
-```
-
-## Compilar o projeto
-
-### Requisitos
-
-- Android Studio compatível com AGP 9.2.1
-- Android SDK 37
-- JDK 17
-
-Clona o repositório e executa:
-
-```bash
-git clone https://github.com/nunchuckcoder/survive.git
-cd survive
-./gradlew test lint assembleDebug
-```
-
-O APK de desenvolvimento é criado em:
-
-```text
-app/build/outputs/apk/debug/app-debug.apk
-```
-
-### AAB de release
-
-Para criar um Android App Bundle assinado sem guardar credenciais no repositório:
-
-```bash
-./gradlew clean test lint bundleRelease \
-  -PSURVIVE_STORE_FILE=/caminho/privado/upload.jks \
-  -PSURVIVE_STORE_PASSWORD='...' \
-  -PSURVIVE_KEY_ALIAS='upload' \
-  -PSURVIVE_KEY_PASSWORD='...'
-```
-
-O ficheiro é criado em `app/build/outputs/bundle/release/app-release.aab`.
-
-Nunca publiques o keystore, passwords, `local.properties` ou ficheiros com dados reais de utilizadores.
-
-## Testes
-
-```bash
-./gradlew test
-./gradlew lint
-./gradlew connectedDebugAndroidTest
-```
-
-Os testes instrumentados incluem os percursos de migração da base Room. Antes de uma publicação, deve também ser testada a atualização por cima de uma instalação anterior com dados reais de teste, além dos fluxos de perfil, backup, despensa, medicamentos, mochilas, notificações, temas e idiomas.
 
 ## Idiomas
 

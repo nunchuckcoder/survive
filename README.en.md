@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/feature-graphic-en.png" alt="SURVIVE — Family Readiness" width="100%">
+  <img src="images/feature_graphic_a.png" alt="SURVIVE — Family Readiness" width="100%">
 </p>
 
 <p align="center">
@@ -35,10 +35,10 @@ SURVIVE brings pantry supplies, stored medicines, emergency go-bags, household p
 
 <table>
   <tr>
-    <td align="center"><img src="assets/screenshots/01-resumo.png" alt="Readiness overview" width="220"><br><strong>Overview</strong></td>
-    <td align="center"><img src="assets/screenshots/02-despensa.png" alt="Pantry management" width="220"><br><strong>Pantry</strong></td>
-    <td align="center"><img src="assets/screenshots/03-medicamentos.png" alt="Stored medicine tracking" width="220"><br><strong>Medicines</strong></td>
-    <td align="center"><img src="assets/screenshots/04-alertas.png" alt="Local alerts" width="220"><br><strong>Alerts</strong></td>
+    <td align="center"><img src="images/screenshot_1_resumo.png" alt="Readiness overview" width="220"><br><strong>Overview</strong></td>
+    <td align="center"><img src="images/screenshot_2_despensa.png" alt="Pantry management" width="220"><br><strong>Pantry</strong></td>
+    <td align="center"><img src="images/screenshot_3_medicamentos.png" alt="Stored medicine tracking" width="220"><br><strong>Medicines</strong></td>
+    <td align="center"><img src="images/screenshot_4_alertas.png" alt="Local alerts" width="220"><br><strong>Alerts</strong></td>
   </tr>
 </table>
 
@@ -55,7 +55,7 @@ SURVIVE runs entirely on the device:
 
 The password restricts access through the app interface, but the local database is not encrypted by the password. JSON backups are not encrypted either and should be kept in a private location.
 
-Read the [Privacy Policy](docs/en/index.md), [Portuguese version](docs/index.md), [Support page](docs/support/index.md) and [data deletion instructions](docs/delete-data/index.md).
+Read the [Privacy Policy in English](https://nunchuckcoder.github.io/survive/en/), the [Portuguese version](https://nunchuckcoder.github.io/survive/), the [Support page](https://nunchuckcoder.github.io/survive/support/) and the [data deletion instructions](https://nunchuckcoder.github.io/survive/delete-data/).
 
 ## Important notices
 
@@ -77,67 +77,6 @@ Nutrition, autonomy and rationing estimates are intended only for general planni
 - PBKDF2-HMAC-SHA-256 for local password derivation
 - Android 8.0 or later (`minSdk 26`)
 - `targetSdk 36`, `compileSdk 37` and JDK 17
-
-## Project structure
-
-```text
-app/src/main/java/pt/osvaldocipriano/survive/
-├── data/          # Room, entities, DAO, session and repository
-├── domain/        # validation and planning calculations
-├── notifications/ # local expiry alerts
-└── ui/            # screens, components, localisation and theme
-
-app/schemas/       # Room schemas used by migration tests
-docs/              # privacy policy and public pages
-```
-
-## Build the project
-
-### Requirements
-
-- Android Studio compatible with AGP 9.2.1
-- Android SDK 37
-- JDK 17
-
-Clone the repository and run:
-
-```bash
-git clone https://github.com/nunchuckcoder/survive.git
-cd survive
-./gradlew test lint assembleDebug
-```
-
-The development APK is created at:
-
-```text
-app/build/outputs/apk/debug/app-debug.apk
-```
-
-### Release AAB
-
-To create a signed Android App Bundle without storing credentials in the repository:
-
-```bash
-./gradlew clean test lint bundleRelease \
-  -PSURVIVE_STORE_FILE=/private/path/upload.jks \
-  -PSURVIVE_STORE_PASSWORD='...' \
-  -PSURVIVE_KEY_ALIAS='upload' \
-  -PSURVIVE_KEY_PASSWORD='...'
-```
-
-The bundle is created at `app/build/outputs/bundle/release/app-release.aab`.
-
-Never publish the keystore, passwords, `local.properties` or files containing real user data.
-
-## Tests
-
-```bash
-./gradlew test
-./gradlew lint
-./gradlew connectedDebugAndroidTest
-```
-
-Instrumented tests cover Room database migration paths. Before publishing, also test an update over a previous installation containing realistic test data, as well as profile, backup, pantry, medicines, go-bags, notifications, themes and languages.
 
 ## Languages
 
