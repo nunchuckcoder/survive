@@ -1,97 +1,85 @@
-<p align="center">
-  <img src="images/feature_graphic_a.png" alt="SURVIVE — Family Readiness" width="100%">
-</p>
+# SURVIVE for Android
 
-<p align="center">
-  <strong>Plan. Organise. Prepare.</strong><br>
-  A native Android app for organising family readiness, privately and completely offline.
-</p>
+[Português](README.md) · [English](README.en.md)
 
-<p align="center">
-  <a href="README.md">Português</a> · <a href="README.en.md">English</a>
-</p>
+A native, self-contained Android application. It contains no WebView, does not open a website to run features, and does not depend on PHP, MySQL, a remote API or an Internet connection.
 
-# SURVIVE: Family Readiness
+Public project version: **1.0** (`versionName "1.0"`) for both `debug` and `release`. The internal Google Play update code is **2** (`versionCode 2`), allowing this build to replace the previous one without changing the version shown to users.
 
-SURVIVE brings pantry supplies, stored medicines, emergency go-bags, household planning and expiry alerts together in one place. It is designed to remain available without an internet connection and to keep user data on the device.
+The Room database now uses internal version **6** to migrate previous installations without data loss, index bag-to-household assignments, distinguish food from medicines and store the weight of each unit. This number is independent from the Google Play `versionCode` and the public application version, which remains **1.0**.
 
-> **Project status:** version **1.0**, being prepared for closed testing on Google Play.
+## Architecture
+
+- Kotlin and Jetpack Compose with Material 3.
+- Room as the local database and single source of truth.
+- One local profile with editable name, email and password.
+- Passwords derived through the native PBKDF2/HMAC-SHA-256 implementation, with a random salt, stored algorithm/iteration count and constant-time comparison. Older hashes are upgraded after successful authentication.
+- JSON data export and restore through the Android system file picker.
+- No `INTERNET`, advertising, analytics, location, camera, microphone or contacts permission. The only functional permissions are notifications and restoring the daily expiry check after restarting the device.
+- `minSdk 26`, `targetSdk 36`, `compileSdk 37` and JDK 17.
 
 ## Features
 
-- **Readiness overview:** estimates for food autonomy, available water, go-bag readiness and active alerts.
-- **Pantry products and batches:** quantities, categories, purchase and expiry dates, nutrition and notes.
-- **Expiry-based stock rotation:** equivalent batches are grouped and the earliest-expiring stock can be used first.
-- **Nutrition calculations:** calories are calculated from protein, carbohydrates and fat, with total reserves.
-- **Usage history:** view recent or complete consumption records and clear the history after confirmation.
-- **Stored medicines:** stock and expiry tracking by batch, with dedicated categories and units.
-- **Emergency go-bags:** multiple bags, household assignments, reorderable categories, priorities and checklists.
-- **Household planning:** indicative daily-needs estimates and emergency-rationing scenarios.
-- **Local alerts:** configurable warning period for products and medicines approaching expiry.
-- **Personalisation:** light, dark and system themes, with Portuguese and English interfaces.
-- **Backups:** manual JSON export and restore through Android's file picker.
+- Readiness overview with normal duration and three rationing phases, calories, macronutrients, water and bag readiness.
+- Pantry with fixed search and filters, predefined categories, nutrition calculated automatically from macronutrients, water-reserve tracking, calendar-based dates, stock usage and history. “Cans” is no longer selectable; choosing “units” requires the weight of each unit in grams and nutritional totals use `quantity × weight per unit`. Equivalent records are grouped while each batch remains independent, and grouped consumption follows the earliest expiry first.
+- A separate Medicines area with dedicated search, categories and units, stock and expiry tracking. It is excluded from nutritional calculations, creates no dosage reminders and explicitly states that it does not replace medical or pharmaceutical advice.
+- A household created with the Profile, supporting man, woman, boy, girl, dog and cat, with separate calculations for adults and children/teenagers aged 3 to 18. Label/value lines adapt to narrow screens and large fonts, moving values to a second line when needed.
+- Multiple emergency bags, appended in order, with reorderable categories, a visible gesture instruction, edit by swiping left and delete by swiping right for both categories and items, priorities, checklist, weight and UUID-based household assignment.
+- Essential forms, filters and dialogs survive rotation; Back returns to the Overview from other tabs.
+- Non-destructive local migrations for data created by earlier 1.0 variants.
+- Local expiry, water, food, medicine and critical-item alerts. Products and medicines can generate three unique notifications: when the warning period starts, halfway through it and five days before expiry. Medicine notifications are generic and do not expose the medicine name on the lock screen.
+- Local profile and login, editable name/email/password, and System, Light or Dark theme selection. Registration fields start neutral, become green only when valid and red only after invalid content is entered; password requirements remain visible.
+- Full Portuguese (Portugal) and English interface. The first launch follows the Android language, with PT-PT as fallback for unsupported languages, and the chosen language is persisted.
+- A complete privacy policy available offline inside the Profile and ready for GitHub Pages in the `docs/` directory.
+- Local profile data backup and restore.
 
-## Screenshots
+## Build
 
-<table>
-  <tr>
-    <td align="center"><img src="images/screenshot_1_resumo.png" alt="Readiness overview" width="220"><br><strong>Overview</strong></td>
-    <td align="center"><img src="images/screenshot_2_despensa.png" alt="Pantry management" width="220"><br><strong>Pantry</strong></td>
-    <td align="center"><img src="images/screenshot_3_medicamentos.png" alt="Stored medicine tracking" width="220"><br><strong>Medicines</strong></td>
-    <td align="center"><img src="images/screenshot_4_alertas.png" alt="Local alerts" width="220"><br><strong>Alerts</strong></td>
-  </tr>
-</table>
+Open the project in an up-to-date Android Studio or run:
 
-## Privacy by design
+```bash
+./gradlew test lint connectedDebugAndroidTest assembleDebug
+```
 
-SURVIVE runs entirely on the device:
+For a signed public build:
 
-- it has no Internet permission;
-- it uses no online accounts, advertising or analytics;
-- it does not send personal, household or medicine data to the developer or third parties;
-- its database remains in the app's private storage;
-- users control data export and deletion;
-- medicine notifications do not reveal medicine names on the lock screen.
+```bash
+./gradlew clean test lint bundleRelease \
+  -PSURVIVE_STORE_FILE=/private/path/upload.jks \
+  -PSURVIVE_STORE_PASSWORD='...' \
+  -PSURVIVE_KEY_ALIAS='upload' \
+  -PSURVIVE_KEY_PASSWORD='...'
+```
 
-The password restricts access through the app interface, but the local database is not encrypted by the password. JSON backups are not encrypted either and should be kept in a private location.
+The AAB is generated in `app/build/outputs/bundle/release/`. Do not commit keystores, passwords or `local.properties`.
 
-Read the [Privacy Policy in English](https://nunchuckcoder.github.io/survive/en/), the [Portuguese version](https://nunchuckcoder.github.io/survive/), the [Support page](https://nunchuckcoder.github.io/survive/support/) and the [data deletion instructions](https://nunchuckcoder.github.io/survive/delete-data/).
+You can also use **Build → Generate Signed App Bundle or APK** in Android Studio. Select your upload key file and enter its exact alias and passwords. The key and credentials are not included in this project.
 
-## Important notices
+## Privacy policy and support pages
 
-### Medicines
+The complete policy is available in Portuguese at `docs/index.md` and in English at `docs/en/index.md`. It is also available offline inside the app under **Profile → View privacy policy**.
 
-The **Medicines** area is limited to tracking the stock and expiry dates of stored medicines. It does not provide medical or pharmaceutical advice, diagnosis, prescriptions, dosage guidance, instructions or medication-taking reminders. SURVIVE is not a medical device.
+The public documentation directory also includes:
 
-### Nutrition and readiness
+- `docs/support/index.md` — support and safe bug-reporting instructions;
+- `docs/delete-data/index.md` — local profile and data deletion instructions.
 
-Nutrition, autonomy and rationing estimates are intended only for general planning. They are not clinical or nutritional prescriptions and do not guarantee safety or survival. Children, pregnancy, illness, special needs and animals require appropriate professional assessment. In an emergency, follow the instructions of the relevant authorities.
+To publish with GitHub Pages, configure **Settings → Pages → Deploy from a branch**, choose the `main` branch and the `/docs` folder. For the `survive` repository, the expected address is `https://nunchuckcoder.github.io/survive/`.
 
-## Technology
+## Required checks before Google Play
 
-- Kotlin
-- Jetpack Compose and Material 3
-- Room
-- DataStore
-- Coroutines and Flow
-- PBKDF2-HMAC-SHA-256 for local password derivation
-- Android 8.0 or later (`minSdk 26`)
-- `targetSdk 36`, `compileSdk 37` and JDK 17
+- Run `test`, `lint`, instrumented tests and `bundleRelease` without errors.
+- Verify the signed AAB reports `versionCode 2` and `versionName 1.0`.
+- Upgrade a real previous installation and confirm Room migrations `1 → 2 → 3 → 4 → 5 → 6` preserve profile, pantry, household, bag and medicine data.
+- Select “units”, enter 5 units weighing 400 g each and confirm the nutritional totals correspond to 2000 g. Confirm that “cans” is no longer offered and that the unit weight survives editing, export and restore.
+- Test PT-PT and English, rotation, process recreation, screen readers, large fonts, small phones and tablets.
+- Test creation, editing, consumption and deletion in airplane mode from first launch.
+- Verify expiry notifications, logout privacy, JSON export/restore and permanent data deletion.
+- Review nutritional and readiness calculations with a suitably qualified person; they are not medical or emergency advice.
 
-## Languages
+The source project is ready for compilation, but an AAB should only be published after these checks are completed using an Android SDK, emulator and physical devices.
 
-- Portuguese (Portugal), used as the fallback when the system language is unsupported
-- English
-
-User-entered content — including names, products, categories and notes — is never translated or changed by the interface.
-
-## Version
-
-- Public version: **1.0**
-- `versionCode`: **1**
-- Room database version: internal and independent of the public app version
-
-The `versionCode` must increase for future Google Play uploads, even if the public version name temporarily remains 1.0.
+Room schemas `1.json` through `6.json` are versioned under `app/schemas/pt.osvaldocipriano.survive.data.local.SurviveDatabase/`. Reconstructed historical schemas support pre-validation but do not replace a real update test over a previously distributed APK.
 
 ## Contact
 

@@ -6,7 +6,7 @@ title: Privacy Policy — SURVIVE
 
 [Português](../) · [English](./) · [Support](../support/) · [Delete data](../delete-data/)
 
-**Last updated:** 28 August 2026  
+**Last updated:** 13 September 2026  
 **Controller:** Osvaldo Cipriano (NunchuckCoder)  
 **Contact:** [osvaldo@osvaldocipriano.dev](mailto:osvaldo@osvaldocipriano.dev)
 
@@ -23,7 +23,7 @@ The app may store locally:
 - the profile's first and last name and email address;
 - a cryptographic password derivative, salt, algorithm and iteration count;
 - household details, including name, avatar, age, sex used for calculations, weight, height and activity;
-- pantry products, quantities, units, categories, purchase and expiry dates, nutritional information, notes and usage history;
+- pantry products, quantities, units, the weight of each unit where applicable, categories, purchase and expiry dates, nutritional information, notes and usage history;
 - stored medicines, including the entered commercial name/strength, category, quantity, unit, purchase date, expiry date and notes; this may constitute health information;
 - bags, assignments to household members, categories, items, priorities, weight and checklist state;
 - theme, configured warning period and the state of notifications already shown.

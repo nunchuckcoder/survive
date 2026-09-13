@@ -6,7 +6,7 @@ title: Política de Privacidade — SURVIVE
 
 [Português](./) · [English](./en/) · [Suporte](./support/) · [Eliminar dados](./delete-data/)
 
-**Última atualização:** 28 de agosto de 2026  
+**Última atualização:** 13 de setembro de 2026  
 **Responsável:** Osvaldo Cipriano (NunchuckCoder)  
 **Contacto:** [osvaldo@osvaldocipriano.dev](mailto:osvaldo@osvaldocipriano.dev)
 
@@ -23,7 +23,7 @@ A aplicação pode guardar localmente:
 - primeiro e último nome e email do perfil;
 - um derivado criptográfico da password, salt, algoritmo e número de iterações;
 - dados do agregado familiar, incluindo nome, avatar, idade, sexo usado nos cálculos, peso, altura e atividade;
-- produtos da despensa, quantidades, unidades, categorias, datas de compra e validade, informação nutricional, notas e histórico de consumos;
+- produtos da despensa, quantidades, unidades, peso de cada unidade quando aplicável, categorias, datas de compra e validade, informação nutricional, notas e histórico de consumos;
 - medicamentos armazenados, incluindo nome comercial/dosagem introduzida, categoria, quantidade, unidade, data de compra, validade e notas; esta informação pode constituir dados de saúde;
 - mochilas, atribuições aos membros do agregado, categorias, itens, prioridades, peso e estado da checklist;
 - tema, antecedência configurada para os alertas e estado das notificações já apresentadas.
